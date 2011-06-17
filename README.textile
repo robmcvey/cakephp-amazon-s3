@@ -1,20 +1,18 @@
-cakephp-amazon-s3
-=======
-
-Purpose
--------
+h2. cakephp-amazon-s3
 
 Provides GET, PUT and DELETE functionality for CakePHP 1.3.x
 
-Examples
---------
+h3. Examples
 
-@<?= $this->Form->create('Pet', array('type' => 'file'));@
-@<?= $this->Form->input('pet' , array('type' => 'file')); ?>@
-@<?= $this->Form->end('Save my pooch'); ?>@
+@if(isset($this->Form->validationErrors)) {@
+  @foreach ($this->Form->validationErrors as $model => $columns) {@
+    @foreach ($columns as $err_msg) {@
+      @echo $this->Html->div('error-message', $err_msg);@
+    @}@
+  @}@
+@}@
 
-References
-----------
+h3. References
 
 Amazon REST api docs
 http://docs.amazonwebservices.com/AmazonS3/latest/dev/
