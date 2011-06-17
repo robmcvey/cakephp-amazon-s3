@@ -169,7 +169,7 @@ class AmazonS3Component extends Object {
 		$canonicalized_amz_headers = '';
  
  		// Build the string to sign 
-    	$string_to_sign = 'DELETE'. "\n". // HTTP method
+		$string_to_sign = 'DELETE'. "\n". // HTTP method
 		''."\n" . //Content-MD5
 		''."\n" . //Content-Type
 		$date."\n" . // Date
@@ -228,8 +228,8 @@ class AmazonS3Component extends Object {
 		// Build the CanonicalizedAmzHeaders Element - We'll set this to private	  
 		$canonicalized_amz_headers = 'x-amz-acl:'.$acl;
  
- 		// Build the string to sign 
-    	$string_to_sign = 'PUT'. "\n". // HTTP method
+ 		// Build the string to sign
+   		$string_to_sign = 'PUT'. "\n". // HTTP method
 		$this->header_check_sum."\n" . //Content-MD5
 		$this->header_content_type."\n" . //Content-Type
 		$date."\n" . // Date
@@ -286,7 +286,8 @@ class AmazonS3Component extends Object {
 		if($file->write($this->results['raw']['body'])) {
 			return true;
 		} else {		
-			$this->errors = sprintf(__('Could not create %s in the following location: %s',true),
+			$this->errors = sprintf(
+				__('Could not create %s in the following location: %s',true),
 				$this->remote_object, $this->local_dir);
 			return false;
 		}
@@ -307,11 +308,13 @@ class AmazonS3Component extends Object {
 	 */
 	function get_local_content_type() {
 		$arg = escapeshellarg($this->local_dir.DS.$this->local_object);
-        $this->header_content_type = exec('file -b --mime-type ' . $arg, $foo, $returnCode); // Better way of doing this? <--
+		// Better way of doing this?
+        $this->header_content_type = exec('file -b --mime-type ' . $arg, $foo, $returnCode); 
 		if(preg_match('#^[-\w]+/[-\w]+$#', $this->header_content_type)) {
 		   return true;
 		} else {
-			$this->errors = sprintf(__('Could not detect content type of %s in the following location: %s',true),
+			$this->errors = sprintf(
+				__('Could not detect content type of %s in the following location: %s',true),
 				$this->local_object, $this->local_dir);
 			return false;
 		} 
@@ -326,12 +329,11 @@ class AmazonS3Component extends Object {
 		if(!empty($this->header_check_sum)){
 			return true;
 		} else {
-			$this->errors = sprintf(__('Could not create MD5 check sum of %s in the following location: %s',true),
+			$this->errors = sprintf(
+				__('Could not create MD5 check sum of %s in the following location: %s',true),
 				$this->local_object, $this->local_dir);
 			return false;
 		}
 	}
-	
-		
+			
 }
-	
