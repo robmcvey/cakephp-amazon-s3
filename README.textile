@@ -5,11 +5,11 @@ Provides GET, PUT and DELETE functionality for CakePHP 1.3.x
 h3. Examples
 
 @if(isset($this->Form->validationErrors)) {@
-  @foreach ($this->Form->validationErrors as $model => $columns) {@
-    @foreach ($columns as $err_msg) {@
-      @echo $this->Html->div('error-message', $err_msg);@
-    @}@
-  @}@
+@	foreach ($this->Form->validationErrors as $model => $columns) {@
+@		foreach ($columns as $err_msg) {@
+@			echo $this->Html->div('error-message', $err_msg);@
+@		}@
+@	}@
 @}@
 
 h3. References
