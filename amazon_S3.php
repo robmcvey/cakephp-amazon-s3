@@ -114,8 +114,8 @@ class AmazonS3Component extends Object {
 		// Build the CanonicalizedAmzHeaders Element	  
 		$canonicalized_amz_headers = '';
  
- 		// Build the string to sign 
-    	$string_to_sign = 'GET'. "\n". // HTTP method
+ 		// Build the string to sign
+		$string_to_sign = 'GET'. "\n". // HTTP method
 		''."\n" . //Content-MD5
 		''."\n" . //Content-Type
 		$date."\n" . // Date
@@ -169,7 +169,7 @@ class AmazonS3Component extends Object {
 		$canonicalized_amz_headers = '';
  
  		// Build the string to sign 
-		$string_to_sign = 'DELETE'. "\n". // HTTP method
+ 		$string_to_sign = 'DELETE'. "\n". // HTTP method
 		''."\n" . //Content-MD5
 		''."\n" . //Content-Type
 		$date."\n" . // Date
@@ -229,7 +229,7 @@ class AmazonS3Component extends Object {
 		$canonicalized_amz_headers = 'x-amz-acl:'.$acl;
  
  		// Build the string to sign
-   		$string_to_sign = 'PUT'. "\n". // HTTP method
+ 		$string_to_sign = 'PUT'. "\n". // HTTP method
 		$this->header_check_sum."\n" . //Content-MD5
 		$this->header_content_type."\n" . //Content-Type
 		$date."\n" . // Date
