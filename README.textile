@@ -17,7 +17,7 @@ if($this->AmazonS3->get()) {
 
 <pre>
 // PUT example
-$this->AmazonS3->local_object = 'subfolder/plain.txt'; // Local file to (can be withindir if specified) to PUT
+$this->AmazonS3->local_object = 'subfolder/plain.txt'; // Local file to PUT. Prepend with any relevant dir's
 $this->AmazonS3->local_dir = WWW_ROOT.'files/amazons3'; // Path to local dir which file resides
 if($this->AmazonS3->put()) {
 	debug($this->AmazonS3->results);
