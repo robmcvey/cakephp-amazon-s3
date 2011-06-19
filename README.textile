@@ -14,7 +14,7 @@ The component has 3 main variables that you can set depending on your particular
 
 <pre>$this->AmazonS3->local_dir</pre> This is the local directory you want to keep your stuff. Required for GET and PUT requests.
 
-<pre>$this->AmazonS3->local_object</pre> This is the local item relative to <pre>local_dir</pre>.  Required when attempting a PUT.
+<pre>$this->AmazonS3->local_object</pre> This is the local item relative to $local_dir.  Required when attempting a PUT.
 
 <pre>$this->AmazonS3->remote_object</pre> This is the item on Amazon relative to the bucket. Required when attempting a GET or DELETE request.
 
