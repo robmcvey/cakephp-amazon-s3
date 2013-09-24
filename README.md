@@ -47,6 +47,16 @@ You can optionally specifiy a remote directory within the bucket to save the fil
 $AmazonS->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
 ```
 
+To add any additional AWS headers to a `put`, example to set the file as "public", they can be passed as an array to the `amazonHeaders` property.
+
+```php
+$AmazonS3->amazonHeaders = array(
+	'x-amz-acl' => 'public-read',
+	'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz'
+);
+$AmazonS->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
+```
+
 ### DELETE
 
 Deletes a file from S3.

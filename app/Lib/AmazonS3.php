@@ -147,6 +147,9 @@ class AmazonS3 {
 			),
 			'body' => $this->File->read()
 		);
+		
+		// Any addional Amazon headers to add?
+		$request = $this->addAmazonHeadersToRequest($request);
 
 		// Make the HTTP request
 		$response = $this->handleRequest($request);
@@ -384,6 +387,21 @@ class AmazonS3 {
 		$toSign .= '/' . $this->bucket . '/' . $this->file;
 		return $toSign;
 	}
+	
+/**
+ * Takes the request array pre-put and adds any additional amazon headers
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function addAmazonHeadersToRequest($request) {
+		if (!empty($this->amazonHeaders) && is_array($this->amazonHeaders)) {
+			foreach ($this->amazonHeaders as $k => $header) {
+				$request['header'][$k] =$header; 
+			}
+		}
+		return $request;
+	}	
 	
 /**
  * Add any additional Amazon specific headers if present

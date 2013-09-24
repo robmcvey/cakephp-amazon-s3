@@ -218,6 +218,71 @@ class AmazonS3TestCase extends CakeTestCase {
 
 		$this->AmazonS3->put($file_path , '/some/dir/in/the/bucket/');
 	}
+
+/**
+ * testPutWithMoreHeaders
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testPutWithMoreHeaders() {
+		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
+
+		// Mock the built request
+		$expectedRequest = array(
+			'method' => 'PUT',
+			'uri' => array(
+				'host' => 'bucket.s3.amazonaws.com',
+				'scheme' => 'https',
+				'path' => 'some/dir/in/the/bucket/dots.csv'
+			),
+			'header' => array(
+				'Accept' => '*/*',
+				'User-Agent' => 'CakePHP',
+				'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+				'Authorization' => 'AWS foo:WxdnOvuaK37BwO72xShLSFu80LI=',
+				'Content-MD5' => 'L0O0L9gz0ed0IKja50GQAA==',
+				'Content-Type' => 'text/plain',
+				'Content-Length' => 3,
+				'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+				'x-amz-acl' => 'public-read',
+			),
+			'body' => '...'
+		);
+
+		// Mock the HttpSocket response
+		$HttpSocketResponse = new stdClass();
+		$HttpSocketResponse->body = '????JFIFdd??Duckya??Adobed??????????';
+		$HttpSocketResponse->code = 200;
+		$HttpSocketResponse->reasonPhrase = 'OK';
+		$HttpSocketResponse->headers = array(
+			'x-amz-id-2' => '4589328529385938',
+			'x-amz-request-id' => 'GSDFGt45egdfsC',
+			'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+			'Last-Modified' => 'Tue, 29 Nov 2011 10:30:03 GMT',
+			'ETag' => '24562346dgdgsdgf2352"',
+			'Accept-Ranges' => 'bytes',
+			'Content-Type' => 'image/jpeg',
+			'Content-Length' => 0,
+			'Connection' => 'close',
+			'Server' => 'AmazonS3'
+		);
+
+		// Mock the HttpSocket class
+		$this->AmazonS3->HttpSocket = $this->getMock('HttpSocket');
+		$this->AmazonS3->HttpSocket->expects($this->once())
+			->method('request')
+			->with($expectedRequest)
+			->will($this->returnValue($HttpSocketResponse));
+			
+		$this->AmazonS3->amazonHeaders = array(
+			'x-amz-acl' => 'public-read',
+			'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+		);	
+
+		$this->AmazonS3->put($file_path , '/some/dir/in/the/bucket/');
+	}	
 	
 /**
  * testGet
@@ -620,7 +685,92 @@ class AmazonS3TestCase extends CakeTestCase {
 		);
 		$this->AmazonS3->buildAmazonHeaders();
 		$this->assertEqual("x-amz-acl:public-read\nx-amz-meta-reviewedby:john.doe@yahoo.biz\n" , $this->AmazonS3->canonicalizedAmzHeaders);
+	}
+
+/**
+ * testAddAmazonHeadersToRequest
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testAddAmazonHeadersToRequest() {
+		// Request
+		$request = array(
+			'method' => 'PUT',
+			'uri' => array(
+				'host' => 'bucket.s3.amazonaws.com',
+				'scheme' => 'https',
+				'path' => 'some/dir/in/the/bucket/dots.csv'
+			),
+			'header' => array(
+				'Accept' => '*/*',
+				'User-Agent' => 'CakePHP',
+				'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+				'Authorization' => 'AWS foo:mCE9RQ8UJYRItzike6XZFd7XjcI=',
+				'Content-MD5' => 'L0O0L9gz0ed0IKja50GQAA==',
+				'Content-Type' => 'text/plain',
+				'Content-Length' => 3
+			),
+			'body' => '...'
+		);
+		$this->AmazonS3->amazonHeaders = array(
+			'x-amz-acl' => 'public-read',
+			'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+		);
+		$result = $this->AmazonS3->addAmazonHeadersToRequest($request);
+		// Request
+		$expected = array(
+			'method' => 'PUT',
+			'uri' => array(
+				'host' => 'bucket.s3.amazonaws.com',
+				'scheme' => 'https',
+				'path' => 'some/dir/in/the/bucket/dots.csv'
+			),
+			'header' => array(
+				'Accept' => '*/*',
+				'User-Agent' => 'CakePHP',
+				'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+				'Authorization' => 'AWS foo:mCE9RQ8UJYRItzike6XZFd7XjcI=',
+				'Content-MD5' => 'L0O0L9gz0ed0IKja50GQAA==',
+				'Content-Type' => 'text/plain',
+				'Content-Length' => 3,
+				'x-amz-acl' => 'public-read',
+				'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+			),
+			'body' => '...'
+		);
+		$this->assertEqual($expected , $result);
 	}		
+	
+/**
+ * testAddAmazonHeadersToRequestNone
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testAddAmazonHeadersToRequestNone() {
+		// Request
+		$request = array(
+			'method' => 'PUT',
+			'uri' => array(
+				'host' => 'bucket.s3.amazonaws.com',
+				'scheme' => 'https',
+				'path' => 'some/dir/in/the/bucket/dots.csv'
+			),
+			'header' => array(
+				'Accept' => '*/*',
+				'User-Agent' => 'CakePHP',
+				'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+				'Authorization' => 'AWS foo:mCE9RQ8UJYRItzike6XZFd7XjcI=',
+				'Content-MD5' => 'L0O0L9gz0ed0IKja50GQAA==',
+				'Content-Type' => 'text/plain',
+				'Content-Length' => 3
+			),
+			'body' => '...'
+		);
+		$result = $this->AmazonS3->addAmazonHeadersToRequest($request);
+		$this->assertEqual($request , $result);
+	}	
 	
 /**
  * testGetContentMd5
