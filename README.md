@@ -30,7 +30,7 @@ $AmazonS3 = new AmazonS3(array('{access key}', '{secret key}', '{bucket name}'))
 The `get` method retrieves a remote file and saves it locally. So let's say there is the file `foo.jpg` on S3 and you want to save it locally in `/home/me/stuff/photos` you'd use the following.
 
 ```php
-$AmazonS->get('foo.jpg' , '/home/me/stuff/photos');
+$AmazonS3->get('foo.jpg' , '/home/me/stuff/photos');
 ```
 
 ### PUT
@@ -38,13 +38,13 @@ $AmazonS->get('foo.jpg' , '/home/me/stuff/photos');
 The `put` method does the reverse of `get`, and saves a local file to S3.
 
 ```php
-$AmazonS->put('/home/me/stuff/photos/foo.jpg');
+$AmazonS3->put('/home/me/stuff/photos/foo.jpg');
 ```
 
 You can optionally specifiy a remote directory within the bucket to save the file in.
 
 ```php
-$AmazonS->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
+$AmazonS3->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
 ```
 
 To add any additional AWS headers to a `put`, example to set the file as "public", they can be passed as an array to the `amazonHeaders` property.
@@ -54,7 +54,7 @@ $AmazonS3->amazonHeaders = array(
 	'x-amz-acl' => 'public-read',
 	'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz'
 );
-$AmazonS->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
+$AmazonS3->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
 ```
 
 ### DELETE
@@ -62,11 +62,11 @@ $AmazonS->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
 Deletes a file from S3.
 
 ```php
-$AmazonS->delete('foo.jpg');
+$AmazonS3->delete('foo.jpg');
 ```
 
 Or delete from within a directory in the bucket:
 
 ```php
-$AmazonS->delete('/some/folder/foo.jpg');
+$AmazonS3->delete('/some/folder/foo.jpg');
 ```
