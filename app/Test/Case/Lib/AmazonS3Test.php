@@ -162,6 +162,64 @@ class AmazonS3TestCase extends CakeTestCase {
 	}
 	
 /**
+ * testPutWithDir
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testPutWithDir() {
+		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
+
+		// Mock the built request
+		$expectedRequest = array(
+			'method' => 'PUT',
+			'uri' => array(
+				'host' => 'bucket.s3.amazonaws.com',
+				'scheme' => 'https',
+				'path' => 'some/dir/in/the/bucket/dots.csv'
+			),
+			'header' => array(
+				'Accept' => '*/*',
+				'User-Agent' => 'CakePHP',
+				'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+				'Authorization' => 'AWS foo:mCE9RQ8UJYRItzike6XZFd7XjcI=',
+				'Content-MD5' => 'L0O0L9gz0ed0IKja50GQAA==',
+				'Content-Type' => 'text/plain',
+				'Content-Length' => 3
+			),
+			'body' => '...'
+		);
+
+		// Mock the HttpSocket response
+		$HttpSocketResponse = new stdClass();
+		$HttpSocketResponse->body = '????JFIFdd??Duckya??Adobed??????????';
+		$HttpSocketResponse->code = 200;
+		$HttpSocketResponse->reasonPhrase = 'OK';
+		$HttpSocketResponse->headers = array(
+			'x-amz-id-2' => '4589328529385938',
+			'x-amz-request-id' => 'GSDFGt45egdfsC',
+			'Date' => 'Mon, 23 Sep 2013 08:46:05 GMT',
+			'Last-Modified' => 'Tue, 29 Nov 2011 10:30:03 GMT',
+			'ETag' => '24562346dgdgsdgf2352"',
+			'Accept-Ranges' => 'bytes',
+			'Content-Type' => 'image/jpeg',
+			'Content-Length' => 0,
+			'Connection' => 'close',
+			'Server' => 'AmazonS3'
+		);
+
+		// Mock the HttpSocket class
+		$this->AmazonS3->HttpSocket = $this->getMock('HttpSocket');
+		$this->AmazonS3->HttpSocket->expects($this->once())
+			->method('request')
+			->with($expectedRequest)
+			->will($this->returnValue($HttpSocketResponse));
+
+		$this->AmazonS3->put($file_path , '/some/dir/in/the/bucket/');
+	}
+	
+/**
  * testGet
  *
  * @return void
@@ -471,6 +529,7 @@ class AmazonS3TestCase extends CakeTestCase {
 	public function testStringToSignPutPng() {
 		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
+		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
 		$expected = "PUT" . "\n";
 		$expected .= "aUIOL+kLNYqj1ZPXnf8+yw==" . "\n";
@@ -490,6 +549,7 @@ class AmazonS3TestCase extends CakeTestCase {
 	public function testStringToSignPutCsv() {
 		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
 		$this->AmazonS3->localPath = $file_path;
+		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
 		$expected = "PUT" . "\n";
 		$expected .= "L0O0L9gz0ed0IKja50GQAA==" . "\n";
@@ -527,6 +587,7 @@ class AmazonS3TestCase extends CakeTestCase {
 	public function testStringToSignPutPngAdditionalHeaders() {
 		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
+		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
 		$this->AmazonS3->amazonHeaders = array(
 			'x-amz-acl' => 'public-read',
@@ -623,6 +684,18 @@ class AmazonS3TestCase extends CakeTestCase {
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
 		$this->assertEqual('Sun, 22 Sep 2013 14:43:04 GMT', $this->AmazonS3->date);
 	}
+	
+/**
+ * testCheckRemoteDir
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testCheckRemoteDir() {
+		$this->AmazonS3->file = 'foo.jpg';
+		$this->AmazonS3->checkRemoteDir('/flip/flop/bing/bing/toss/');
+		$this->assertEqual('flip/flop/bing/bing/toss/foo.jpg' , $this->AmazonS3->file);
+	}
 
 /**
  * testSetDate
@@ -649,4 +722,3 @@ class AmazonS3TestCase extends CakeTestCase {
 	}
 
 }
-	

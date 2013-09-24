@@ -10,7 +10,6 @@
  * @link          www.copify.com
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('CakeRequest', 'Network');
 App::uses('HttpSocket', 'Network/Http');
 App::uses('File', 'Utility');
 App::uses('Xml', 'Utility');
@@ -116,10 +115,16 @@ class AmazonS3 {
  * @return void
  * @author Rob Mcvey
  **/
-	public function put($localPath) {
+	public function put($localPath , $remoteDir = null) {
+
+		// Base filename
+		$file = basename($localPath);
+
 		// File remote/local files
 		$this->checkLocalPath($localPath);
-
+		$this->checkFile($file);
+		$this->checkRemoteDir($remoteDir);
+		
 		// Signature
 		$stringToSign = $this->stringToSign('put');
 
@@ -337,6 +342,20 @@ class AmazonS3 {
 			throw new InvalidArgumentException(__('The localPath you set does not exist'));
 		}
 	}
+	
+/**
+ * Removes preceeding/trailing slashes from a remote dir target and builds $this->file again
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function checkRemoteDir($remoteDir) {
+		// Is the target a directory? Remove preceending and trailing /				
+		if ($remoteDir) {
+			$remoteDir = preg_replace(array("/^\//", "/\/$/") , "", $remoteDir);
+			$this->file = $remoteDir . '/' . $this->file;
+		}
+	}
 
 /**
  * Creates the Authorization header string to sign
@@ -349,7 +368,6 @@ class AmazonS3 {
 		// PUT object, need hash and content type
 		if (strtoupper($method) == 'PUT') {
 			$this->getLocalFileInfo();
-			$this->file = $this->info['basename'];
 			$this->contentType = $this->info['mime'];
 			$this->contentMd5 = $this->getContentMd5();
 		}
