@@ -110,7 +110,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testPut() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
 
 		// Mock the built request
@@ -168,7 +168,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testPutWithDir() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
 
 		// Mock the built request
@@ -226,7 +226,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testPutWithMoreHeaders() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
 
 		// Mock the built request
@@ -291,7 +291,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testGet() {
-		$localPath = TESTS . 'test_app' . DS . 'webroot' . DS . 'files';
+		$localPath = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files';
 		$file = 'lolcat.jpg';
 		$fullpath = $localPath . DS . $file;
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
@@ -402,7 +402,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @expectedExceptionMessage The AWS Access Key Id you provided does not exist in our records.
  **/
 	public function testGetException() {
-		$localPath = TESTS . 'test_app' . DS . 'webroot' . DS . 'files';
+		$localPath = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files';
 		$file = 'lolcat.jpg';
 		$fullpath = $localPath . DS . $file;
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
@@ -459,7 +459,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @expectedExceptionMessage There was an error communicating with AWS
  **/
 	public function testGetGenericException() {
-		$localPath = TESTS . 'test_app' . DS . 'webroot' . DS . 'files';
+		$localPath = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files';
 		$file = 'lolcat.jpg';
 		$fullpath = $localPath . DS . $file;
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
@@ -516,7 +516,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @expectedExceptionMessage There was an error communicating with AWS
  **/
 	public function testGetBuggyXmlException() {
-		$localPath = TESTS . 'test_app' . DS . 'webroot' . DS . 'files';
+		$localPath = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files';
 		$file = 'lolcat.jpg';
 		$fullpath = $localPath . DS . $file;
 		$this->AmazonS3->setDate('Mon, 23 Sep 2013 08:46:05 GMT');
@@ -572,7 +572,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testStringToSignGet() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files';
 		$this->AmazonS3->file = 'lolcat.jpg';
 		$this->AmazonS3->localPath = $file_path;
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
@@ -592,7 +592,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testStringToSignPutPng() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files'. DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
 		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
@@ -612,7 +612,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testStringToSignPutCsv() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'dots.csv';
 		$this->AmazonS3->localPath = $file_path;
 		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
@@ -650,7 +650,7 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testStringToSignPutPngAdditionalHeaders() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
 		$this->AmazonS3->file = basename($file_path);
 		$this->AmazonS3->setDate('Sun, 22 Sep 2013 14:43:04 GMT');
@@ -779,12 +779,12 @@ class AmazonS3TestCase extends CakeTestCase {
  * @author Rob Mcvey
  **/
 	public function testGetContentMd5() {
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'csv_iso8859.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'csv_iso8859.csv';
 		$this->AmazonS3->localPath = $file_path;
 		$result = $this->AmazonS3->getContentMd5();
 		$this->assertEqual('ywdK3sOES1D0A+NyHoVKeA==', $result);
-		
-		$file_path = TESTS . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
+		// Image
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
 		$result = $this->AmazonS3->getContentMd5();
 		$this->assertEqual('aUIOL+kLNYqj1ZPXnf8+yw==', $result);
@@ -798,13 +798,13 @@ class AmazonS3TestCase extends CakeTestCase {
  **/
 	public function testGetLocalFileInfo() {
 		// CSV
-		$file_path = TESTS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'csv_iso8859.csv';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'csv_iso8859.csv';
 		$this->AmazonS3->localPath = $file_path;
 		$result = $this->AmazonS3->getLocalFileInfo();
 		$this->assertEqual('text/plain' , $result['mime']);
 		$this->assertEqual(1114 , $result['filesize']);
 		// Image
-		$file_path = TESTS . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
+		$file_path = APP . 'Plugin' . DS . 'AmazonS3' . DS . 'Test' . DS . 'test_app' . DS . 'webroot' . DS . 'files' . DS . 'avatars' . DS . 'copify.png';
 		$this->AmazonS3->localPath = $file_path;
 		$result = $this->AmazonS3->getLocalFileInfo();
 		$this->assertEqual('image/png' , $result['mime']);
