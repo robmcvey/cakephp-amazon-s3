@@ -1,6 +1,6 @@
-# Amazon S3 Utility for CakePHP 2.3.x
+# Amazon S3 Utility for CakePHP 2.x
 
-A utility class to interact with Amazon Web Services S3 objects. This class provides a simple and robust library that can be added to any CakePHP project to complete the following:
+A CakePHP Plugin to interact with Amazon Web Services S3 objects. This plugin provides a simple and robust methods that can be added to any CakePHP project to complete the following:
 
 * Retrieve a remote file from an S3 bucket and save locally
 * Save a local file in an S3 bucket
@@ -8,7 +8,7 @@ A utility class to interact with Amazon Web Services S3 objects. This class prov
 
 ### Requirements
 
-* CakePHP 2.3.x
+* CakePHP 2.x
 * An Amazon Web Services account (http://aws.amazon.com/s3/)
 * Your AWS access key and secret key
 
@@ -41,7 +41,9 @@ git clone -b master git://github.com/robmcvey/cakephp-amazon-s3.git AmazonS3
 
 ### Usuage examples
 
-Initialise the class with your AWS Access key, secret key and the bucket name you wish to work with.
+Remember to add `CakePlugin::load('AmazonS3');` to your app's bootstrap file. 
+
+Then, simply initialise the plugin with your AWS Access key, secret key and the bucket name you wish to work with.
 
 ```php
 App::uses('AmazonS3', 'AmazonS3.Lib');
