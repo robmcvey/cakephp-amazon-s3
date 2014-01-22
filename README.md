@@ -1,4 +1,4 @@
-# Amazon S3 Utility for CakePHP 2.x
+# Amazon S3 Plugin for CakePHP 2.x
 
 A CakePHP Plugin to interact with Amazon Web Services S3 objects. This plugin provides a simple and robust methods that can be added to any CakePHP project to complete the following:
 
