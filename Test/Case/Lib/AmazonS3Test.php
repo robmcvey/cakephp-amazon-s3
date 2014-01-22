@@ -10,7 +10,7 @@
  * @link          www.copify.com
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('AmazonS3', 'Lib');
+App::uses('AmazonS3', 'AmazonS3.Lib');
 
 /**
  * PaypalTest class
