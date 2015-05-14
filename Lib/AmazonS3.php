@@ -411,10 +411,22 @@ class AmazonS3 {
  **/
 	public function buildAmazonHeaders() {
 		if (!empty($this->amazonHeaders) && is_array($this->amazonHeaders)) {
+		    $this->canonicalizedAmzHeaders = '';
+		    $this->sortLexicographically();
 			foreach ($this->amazonHeaders as $k => $header) {
 				$this->canonicalizedAmzHeaders .= strtolower($k) . ":" . $header . "\n"; 
 			}
 		}
+	}
+	
+/**
+ * Sort the collection of headers lexicographically by header name.
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function sortLexicographically() {
+        ksort($this->amazonHeaders, SORT_FLAG_CASE | SORT_NATURAL);
 	}
 	
 /**

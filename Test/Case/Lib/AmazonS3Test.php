@@ -688,6 +688,39 @@ class AmazonS3TestCase extends CakeTestCase {
 	}
 
 /**
+ * testSortLexicographically
+ *
+ * @return void
+ * @author Rob Mcvey
+ **/
+	public function testSortLexicographically() {
+        $this->AmazonS3->amazonHeaders = array(
+			'X-Amz-Meta-ReviewedBy' => 'bob@gmail.biz',
+            'X-Amz-CUSTOM' => 'chicken-soup',
+		);
+		$this->AmazonS3->sortLexicographically();
+		$result = $this->AmazonS3->amazonHeaders;
+		$expected = array(
+			'X-Amz-CUSTOM' => 'chicken-soup',
+			'X-Amz-Meta-ReviewedBy' => 'bob@gmail.biz',
+		);
+		$this->assertSame($expected, $result);
+		
+		//
+		$this->AmazonS3->amazonHeaders = array(
+            'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+            'x-amz-acl' => 'public-read',  
+        );
+        $this->AmazonS3->sortLexicographically();
+        $result = $this->AmazonS3->amazonHeaders;
+        $expected = array(
+            'x-amz-acl' => 'public-read',
+    		'X-Amz-Meta-ReviewedBy' => 'john.doe@yahoo.biz',
+		);
+		$this->assertSame($expected, $result);
+	}
+
+/**
  * testAddAmazonHeadersToRequest
  *
  * @return void
