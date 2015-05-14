@@ -66,7 +66,7 @@ The `put` method does the reverse of `get`, and saves a local file to S3.
 $AmazonS3->put('/home/me/stuff/photos/foo.jpg');
 ```
 
-You can optionally specifiy a remote directory within the bucket to save the file in.
+You can optionally specifiy a remote directory within the bucket to save the file in. Be sure not to include a starting / in the remote directory string.
 
 ```php
 $AmazonS3->put('/home/me/stuff/photos/foo.jpg' , 'some/folder');
@@ -90,8 +90,8 @@ Deletes a file from S3.
 $AmazonS3->delete('foo.jpg');
 ```
 
-Or delete from within a directory in the bucket:
+Or delete from within a directory in the bucket. Be sure not to include a starting / in the string or you will receive a SignatureDoesNotMatch error:
 
 ```php
-$AmazonS3->delete('/some/folder/foo.jpg');
+$AmazonS3->delete('some/folder/foo.jpg');
 ```
